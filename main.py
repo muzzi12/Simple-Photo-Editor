@@ -1,10 +1,14 @@
 from tkinter import *
-from PIL import Image,ImageEnhance,ImageOps,ImageFilter
+from PIL import Image,ImageEnhance,ImageOps,ImageFilter,ImageFont,ImageDraw
 import PIL
 import cv2
 import os
 from tkinter import filedialog
 from tkinter import messagebox
+from pygame import mixer
+import pyttsx3
+import sys
+from tkinter.colorchooser import askcolor
 
 
 master = Tk()
@@ -16,6 +20,7 @@ rotate2 = 0
 poster2 = 0
 brightness2= 0
 blur2 = 0
+color_value = '#000000'
 
 def create():
     if file=='':
@@ -425,30 +430,16 @@ def blur1():
     contrast_button.bind('<Enter>', enter1)
     contrast_button.bind('<Leave>', leave1)
 
+def on_click1(event):
+    mixer.init()
+    mixer.music.load('mixkit-arcade-game-jump-coin-216.wav')
+    mixer.music.play()
 
-def enter1(event):
-    button1.config(bg='grey',fg='black',relief=SUNKEN)
 
-def leave1(event):
-    button1.config(bg='black',fg='white',relief=RAISED)
-
-def enter2(event):
-    button2.config(bg='grey',fg='black',relief=SUNKEN)
-
-def leave2(event):
-    button2.config(bg='black',fg='white',relief=RAISED)
-
-def enter3(event):
-    button3.config(bg='grey',fg='black',relief=SUNKEN)
-
-def leave3(event):
-    button3.config(bg='black',fg='white',relief=RAISED)
-
-def enter4(event):
-    button4.config(bg='grey',fg='black',relief=SUNKEN)
-
-def leave4(event):
-    button4.config(bg='black',fg='white',relief=RAISED)
+def on_click(event):
+    mixer.init()
+    mixer.music.load('mixkit-game-click-1114.wav')
+    mixer.music.play()
 
 def enter5(event):
     button5.config(bg='grey',fg='black',relief=SUNKEN)
@@ -509,26 +500,177 @@ def enter15(event):
 def leave15(event):
     blurr.config(fg='black')
 
-def enter13(event):
-    button6.config(bg='grey',fg='black',relief=SUNKEN)
+def speaklabel(event):
+    word = label.cget('text')
+    engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice',voices[1].id)
+    engine.say(word)
+    engine.runAndWait()
 
-def leave13(event):
-    button6.config(bg='black',fg='white',relief=RAISED)
+def speakchoose(event):
+    word = openfile.cget('text')
+    engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice',voices[1].id)
+    engine.say(word)
+    engine.runAndWait()
 
-def enter14(event):
-    button7.config(bg='grey',fg='black',relief=SUNKEN)
+def speakcontrast(event):
+    word = contrast.cget('text')
+    engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice',voices[1].id)
+    engine.say(word)
+    engine.runAndWait()
 
-def leave14(event):
-    button7.config(bg='black',fg='white',relief=RAISED)
+def speaksharpness(event):
+    word = sharpnes.cget('text')
+    engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice',voices[1].id)
+    engine.say(word)
+    engine.runAndWait()
+
+def speakcolor(event):
+    word = color.cget('text')
+    engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice',voices[1].id)
+    engine.say(word)
+    engine.runAndWait()
+
+def speakposterize(event):
+    word = poster.cget('text')
+    engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice',voices[1].id)
+    engine.say(word)
+    engine.runAndWait()
+
+def speakbrightness(event):
+    word = brightness.cget('text')
+    engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice',voices[1].id)
+    engine.say(word)
+    engine.runAndWait()
+
+def speakrotate(event):
+    word = rotate.cget('text')
+    engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice',voices[1].id)
+    engine.say(word)
+    engine.runAndWait()
+
+def speakblur(event):
+    word = blurr.cget('text')
+    engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice',voices[1].id)
+    engine.say(word)
+    engine.runAndWait()
+
+def speakcustomize(event):
+    word = button5.cget('text')
+    engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice',voices[1].id)
+    engine.say(word)
+    engine.runAndWait()
+
+def ask():
+    question = messagebox.askquestion('Photo Editor','Do you want to exit?')
+    if question=='yes':
+        sys.exit()
+    else:
+        pass
+
+def text():
+    def change_color():
+        global color_value
+        value = askcolor()
+        color_value= value[1]
+        text_color.config(bg=color_value)
+
+    def confirm():
+        global file
+        value_text = text_value.get()
+        value_x = x_value.get()
+        value_y = y_value.get()
+        text_size_value = text_size.get()
+
+        if file=='':
+            messagebox.showerror('Photo Editor','Please select a picture!')
+
+        else:
+            img = Image.open(file)
+            text_img = ImageDraw.Draw(img)
+            font = ImageFont.truetype(('arial.ttf'), size=text_size_value)
+            text_img.text((int(value_x),int(value_y)),value_text,color_value,font)
+            path = filedialog.asksaveasfilename(filetypes=[('JPG Files', '*.jpg'), ('PNG Files', '*.png')],
+                                          defaultextension='.png',initialfile='Untitled.jpg',initialdir='D:/edited/')
+            try:
+                img.save(path)
+                os.startfile(path)
+
+            except ValueError:
+                pass
 
 
-master.geometry('600x500+600+200')
+
+    newindow = Toplevel()
+    newindow.title('Text')
+    newindow.resizable(0,0)
+    newindow.geometry('300x200')
+    newindow.config(background='')
+
+    label0 = Label(newindow,text='Add Text To Your Picture',bg='white',fg='aqua',font='cursive 15 bold italic')
+    label0.pack(side=TOP)
+    text1 = Label(newindow,text='Text :',font='cursive 10 bold italic',bg='white',fg='black')
+    text1.place(x=5,y=50)
+    text_value = Entry(newindow,width=30,fg='red',border=2)
+    text_value.place(x=45,y=52)
+
+    label_coordinates = Label(newindow,text='Coordinates : ',font='curisve 10 bold italic',fg='black',bg='white').place(x=5,y=100)
+    x_label = Label(newindow,text='X =',bg='white',fg='red',font='cursive 10 bold italic').place(x=100,y=100)
+    x_value = Entry(newindow,width=4,border=2)
+    x_value.place(x=125,y=101)
+
+    y_label = Label(newindow,text='Y =',bg='white',fg='red',font='cursive 10 bold italic').place(x=160,y=100)
+    y_value = Entry(newindow,width=4,border=2)
+    y_value.place(x=185,y=101)
+
+    text_color_label = Button(newindow,text='Text-Color :',font='cursive 10 bold italic',bg='white',border=0,cursor='hand2',activebackground='white',command=change_color).place(x=5,y=130)
+    text_color = Label(newindow,width=3,bg='white')
+    text_color.place(x=90,y=132)
+
+    text_size_label = Label(newindow,text='Size :',font='cursive 10 bold italic',bg='white').place(x=5,y=160)
+    text_size = Scale(newindow,from_=5,to=200,resolution=5,width=5,orient=HORIZONTAL,bg='white',length=220)
+    text_size.place(x=50,y=160)
+
+    menubar1 = Menu(newindow)
+    menu5 = Menu(newindow,tearoff=0)
+    menu5.add_command(label='Confirm Changes',command=confirm)
+    menubar1.add_cascade(label='Text',menu=menu5)
+    newindow.config(menu=menubar1)
+
+
+master.geometry('565x450+600+200')
 master.title('Image Editor')
+master.resizable(0,0)
+master.protocol('WM_DELETE_WINDOW',ask)
 master.config(background='white')
-label = Label(master,text='Welcome To The Photo Editor!',bg='white',fg='aqua',font='chiller 40 bold italic').pack(side=TOP)
+label = Label(master,text='Welcome To The Photo Editor!',bg='white',fg='aqua',font='chiller 40 bold italic')
+label.pack(side=TOP)
+label.bind('<Button-3>',speaklabel)
+
 openfile = Button(master,text='Choose Picture',bg='black',fg='white',activeforeground='black',activebackground='white',font='cursive 12 bold italic',cursor='hand2',command=choose)
 openfile.pack(padx=10,pady=20)
 openfile.bind('<Enter>',enter6)
+openfile.bind('<Button-1>',on_click1)
+openfile.bind('<Button-3>',speakchoose)
 openfile.bind('<Leave>',leave6)
 
 label1 = Label(master,bg='white',fg='red',font='cursive 10 bold italic')
@@ -540,6 +682,8 @@ contrast_ = Label(master,text='',font='cursive 10 bold italic',bg='white',fg='re
 contrast_.place(x=215,y=202)
 contrast.bind('<Enter>',enter7)
 contrast.bind('<Leave>',leave7)
+contrast.bind('<Button-1>',on_click1)
+contrast.bind('<Button-3>',speakcontrast)
 
 sharpnes = Button(master,text='Sharpness :',command=sharpness1,font='cursive 10 bold italic',bg='white', fg='black',activeforeground='black',activebackground='white',border=0,cursor='hand2')
 sharpnes.place(x=150,y=250)
@@ -547,6 +691,8 @@ sharpnes_ = Label(master,text='',font='cursive 10 bold italic',bg='white',fg='re
 sharpnes_.place(x=230,y=252)
 sharpnes.bind('<Enter>',enter8)
 sharpnes.bind('<Leave>',leave8)
+sharpnes.bind('<Button-1>',on_click1)
+sharpnes.bind('<Button-3>',speaksharpness)
 
 color = Button(master,text='Color: ',command=color1,font='cursive 10 bold italic',bg='white', fg='black',activeforeground='black',activebackground='white',border=0,cursor='hand2')
 color.place(x=150,y=300)
@@ -554,6 +700,8 @@ color_ = Label(master,text='',font='cursive 10 bold italic',bg='white',fg='red')
 color_.place(x=200,y=302)
 color.bind('<Enter>',enter9)
 color.bind('<Leave>',leave9)
+color.bind('<Button-1>',on_click1)
+color.bind('<Button-3>',speakcolor)
 
 rotate = Button(master,text='Rotate:',command=rotate1,font='cursive 10 bold italic',bg='white', fg='black',activeforeground='black',activebackground='white',border=0,cursor='hand2')
 rotate.place(x=350,y=200)
@@ -561,6 +709,8 @@ rotate_ = Label(master,text='',font='cursive 10 bold italic',bg='white',fg='red'
 rotate_.place(x=400,y=202)
 rotate.bind('<Enter>',enter10)
 rotate.bind('<Leave>',leave10)
+rotate.bind('<Button-1>',on_click1)
+rotate.bind('<Button-3>',speakrotate)
 
 brightness = Button(master,text='Brightness:',command=brightness1,font='cursive 10 bold italic',bg='white', fg='black',activeforeground='black',activebackground='white',border=0,cursor='hand2')
 brightness.place(x=350,y=300)
@@ -568,6 +718,8 @@ brightness_ = Label(master,text='',font='cursive 10 bold italic',bg='white',fg='
 brightness_.place(x=425,y=302)
 brightness.bind('<Enter>',enter12)
 brightness.bind('<Leave>',leave12)
+brightness.bind('<Button-1>',on_click1)
+brightness.bind('<Button-3>',speakbrightness)
 
 poster= Button(master,text='Posterize:',command=poster1,font='cursive 10 bold italic',bg='white', fg='black',activeforeground='black',activebackground='white',border=0,cursor='hand2')
 poster.place(x=350,y=250)
@@ -575,55 +727,49 @@ poster_ = Label(master,text='',font='cursive 10 bold italic',bg='white',fg='red'
 poster_.place(x=415,y=252)
 poster.bind('<Enter>',enter11)
 poster.bind('<Leave>',leave11)
+poster.bind('<Button-1>',on_click1)
+poster.bind('<Button-3>',speakposterize)
 
-blurr= Button(master,text='Blurr : ',command=blur1,font='cursive 10 bold italic',bg='white', fg='black',activeforeground='black',activebackground='white',border=0,cursor='hand2')
+blurr= Button(master,text='Blur : ',command=blur1,font='cursive 10 bold italic',bg='white', fg='black',activeforeground='black',activebackground='white',border=0,cursor='hand2')
 blurr.place(x=260,y=350)
 blurr_ = Label(master,text='',font='cursive 10 bold italic',bg='white',fg='red')
 blurr_.place(x=305,y=352)
 blurr.bind('<Enter>',enter15)
 blurr.bind('<Leave>',leave15)
+blurr.bind('<Button-1>',on_click1)
+blurr.bind('<Button-3>',speakblur)
 
-
+button5 = Button(master,text='Customize!',bg='black',command=create, fg='white',activeforeground='black',activebackground='white',font='curisve 12 bold italic',cursor='hand2')
+button5.pack(side=BOTTOM)
+button5.bind('<Enter>',enter5)
+button5.bind('<Leave>',leave5)
+button5.bind('<Button-1>',on_click1)
+button5.bind('<Button-3>',speakcustomize)
 
 menubar = Menu(master)
 menu = Menu(menubar,tearoff=0)
-menu.add_command(label='Credits',command=credits)
+menu.add_command(label='Credits',command=credits,foreground='red',background='black',activeforeground='black',activebackground='grey',font='cursive 10 bold italic')
 menubar.add_cascade(label='Help',menu=menu)
 master.config(menu=menubar)
 
-button1= Button(master,text='Pencil Sketch!',command=pencil,bg='black', fg='white',activeforeground='black',activebackground='white',font='curisve 12 bold italic',cursor='hand2')
-button1.place(x=5,y=460)
-button1.bind('<Enter>',enter1)
-button1.bind('<Leave>',leave1)
+menu2 = Menu(menubar,tearoff=0)
+mirror = menu2.add_command(label='Mirror!',command=Mirror,foreground='red',background='black',activeforeground='black',activebackground='grey',font='cursive 10 bold italic')
+menu2.bind('<<MenuSelect>>',on_click)
+menu.bind('<<MenuSelect>>',on_click)
+menu2.add_command(label='Black And White!',command=Black,foreground='red',background='black',activeforeground='black',activebackground='grey',font='cursive 10 bold italic')
+menu2.add_command(label='Enhance Edges!',command=enhance1,foreground='red',background='black',activeforeground='black',activebackground='grey',font='cursive 10 bold italic')
+menubar.add_cascade(label='Filters',menu=menu2)
 
-button2 = Button(master,text='Inverted!',bg='black',command=inverted ,fg='white',activeforeground='black',activebackground='white',font='curisve 12 bold italic',cursor='hand2')
-button2.place(x=190,y=460)
-button2.bind('<Enter>',enter2)
-button2.bind('<Leave>',leave2)
+menu3 = Menu(menu2,tearoff=0)
+menu3.add_command(label='Emboss!',command=emboss1,foreground='red',background='yellow',activeforeground='red',activebackground='grey',font='cursive 10 bold italic')
+menu3.add_command(label='Invert!',command=inverted,foreground='red',background='yellow',activeforeground='red',activebackground='grey',font='cursive 10 bold italic')
+menu3.add_command(label='Pencil Sketch!',command=emboss1,foreground='red',background='yellow',activeforeground='red',activebackground='grey',font='cursive 10 bold italic')
+menu2.add_cascade(label='Specials',menu=menu3,foreground='red',background='black',activeforeground='black',activebackground='grey',font='cursive 10 bold italic')
+menu3.bind('<<MenuSelect>>',on_click)
 
-button3 = Button(master,text='Mirror!',bg='black',command=Mirror, fg='white',activeforeground='black',activebackground='white',font='curisve 12 bold italic',cursor='hand2')
-button3.place(x=330,y=460)
-button3.bind('<Enter>',enter3)
-button3.bind('<Leave>',leave3)
-
-button4 = Button(master,text='Black and White!',bg='black',command=Black, fg='white',activeforeground='black',activebackground='white',font='curisve 12 bold italic',cursor='hand2')
-button4.place(x=455,y=460)
-button4.bind('<Enter>',enter4)
-button4.bind('<Leave>',leave4)
-
-button5 = Button(master,text='Customize!',bg='black',command=create, fg='white',activeforeground='black',activebackground='white',font='curisve 12 bold italic',cursor='hand2')
-button5.place(x=251,y=420)
-button5.bind('<Enter>',enter5)
-button5.bind('<Leave>',leave5)
-
-button6 = Button(master,text='Emboss!',bg='black',command=emboss1, fg='white',activeforeground='black',activebackground='white',font='curisve 12 bold italic',cursor='hand2')
-button6.place(x=24,y=420)
-button6.bind('<Enter>',enter13)
-button6.bind('<Leave>',leave13)
-
-button7 = Button(master,text='Enhance Edges!',command=enhance1,bg='black', fg='white',activeforeground='black',activebackground='white',font='curisve 12 bold italic',cursor='hand2')
-button7.place(x=455,y=420)
-button7.bind('<Enter>',enter14)
-button7.bind('<Leave>',leave14)
+menu4 = Menu(menubar,tearoff=0)
+menu4.add_command(label='Add Text',foreground='red',background='black',activeforeground='black',activebackground='grey',font='cursive 10 bold italic',command=text)
+menubar.add_cascade(label='Text',menu=menu4)
+menu4.bind('<<MenuSelect>>',on_click)
 
 master.mainloop()
