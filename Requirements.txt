@@ -1,0 +1,2 @@
+1. Install pillow
+2. Install opencv
