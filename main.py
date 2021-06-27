@@ -5,11 +5,17 @@ import cv2
 import os
 from tkinter import filedialog
 from tkinter import messagebox
-from pygame import mixer
 import pyttsx3
+from pyttsx3.drivers import sapi5
 import sys
 from tkinter.colorchooser import askcolor
+import winsound
+from datetime import date
+import time
 
+engine = pyttsx3.init()
+voices = engine.getProperty('voices')
+engine.setProperty('voice', voices[1].id)
 
 master = Tk()
 file = ''
@@ -431,152 +437,175 @@ def blur1():
     contrast_button.bind('<Leave>', leave1)
 
 def on_click1(event):
-    mixer.init()
-    mixer.music.load('mixkit-arcade-game-jump-coin-216.wav')
-    mixer.music.play()
-
+    winsound.PlaySound('E:\pycharmprojects\Video_Editor\mixkit-arcade-game-jump-coin-216.wav', winsound.SND_ASYNC)
 
 def on_click(event):
-    mixer.init()
-    mixer.music.load('mixkit-game-click-1114.wav')
-    mixer.music.play()
+    winsound.PlaySound('E:\pycharmprojects\Video_Editor\mixkit-game-click-1114.wav',winsound.SND_ASYNC)
 
 def enter5(event):
     button5.config(bg='grey',fg='black',relief=SUNKEN)
+    statusbar.config(text='Customize : Customize Your Picture')
 
 def leave5(event):
     button5.config(bg='black',fg='white',relief=RAISED)
+    statusbar.config(text='')
 
 def enter6(event):
     openfile.config(bg='grey',fg='black',relief=SUNKEN)
+    statusbar.config(text='Choose Picture : Select Any Picture')
 
 def leave6(event):
     openfile.config(bg='black',fg='white',relief=RAISED)
-
+    statusbar.config(text='')
 
 def enter7(event):
     contrast.config(fg='grey')
+    statusbar.config(text='Contrast : Enhance The Contrast Of Your Picture!')
 
 def leave7(event):
     contrast.config(fg='black')
-
+    statusbar.config(text='')
 
 def enter8(event):
     sharpnes.config(fg='grey')
+    statusbar.config(text='Sharpness : Enhance The Sharpness Of Your Picture!')
 
 def leave8(event):
     sharpnes.config(fg='black')
-
+    statusbar.config(text='')
 
 def enter9(event):
     color.config(fg='grey')
+    statusbar.config(text='Color : Enhance The Color Of Your Picture!')
 
 def leave9(event):
     color.config(fg='black')
-
+    statusbar.config(text='')
 
 def enter10(event):
     rotate.config(fg='grey')
+    statusbar.config(text='Rotate : Rotate Your Picture!')
 
 def leave10(event):
     rotate.config(fg='black')
-
+    statusbar.config(text='')
 
 def enter11(event):
     poster.config(fg='grey')
+    statusbar.config(text='Poster : Posterize Your Picture!')
 
 def leave11(event):
     poster.config(fg='black')
+    statusbar.config(text='')
 
 def enter12(event):
     brightness.config(fg='grey')
+    statusbar.config(text='Brightness : Enhance The Brightness Of Your Picture!')
 
 def leave12(event):
     brightness.config(fg='black')
+    statusbar.config(text='')
 
 def enter15(event):
     blurr.config(fg='grey')
+    statusbar.config(text='Blur : Blur Your Picture!')
 
 def leave15(event):
     blurr.config(fg='black')
+    statusbar.config(text='')
+
+def enter_label(evet):
+    statusbar.config(text='Welcome To The Photo Editor!')
+
+def leave_label(evet):
+    statusbar.config(text='')
+
+def enter_time(event):
+    statusbar.config(text=f"Time : {(time.strftime('%I:%M %p'))} ")
+
+def leavetime(event):
+    statusbar.config(text="")
+
+def enter_date(event):
+    statusbar.config(text=f'Date : {date.today()}')
+
+def leavedate(event):
+    statusbar.config(text='')
+
+def enter_label1(event):
+    value = label1['text']
+    if value=='':
+        pass
+
+    else:
+        statusbar.config(text=f"File : {label1['text']}")
+
+
+def Leave_label1(event):
+    statusbar.config(text='')
+
 
 def speaklabel(event):
     word = label.cget('text')
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice',voices[1].id)
     engine.say(word)
     engine.runAndWait()
 
 def speakchoose(event):
     word = openfile.cget('text')
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice',voices[1].id)
     engine.say(word)
     engine.runAndWait()
 
 def speakcontrast(event):
     word = contrast.cget('text')
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice',voices[1].id)
     engine.say(word)
     engine.runAndWait()
 
 def speaksharpness(event):
     word = sharpnes.cget('text')
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice',voices[1].id)
     engine.say(word)
     engine.runAndWait()
 
 def speakcolor(event):
     word = color.cget('text')
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice',voices[1].id)
     engine.say(word)
     engine.runAndWait()
 
 def speakposterize(event):
     word = poster.cget('text')
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice',voices[1].id)
     engine.say(word)
     engine.runAndWait()
 
 def speakbrightness(event):
     word = brightness.cget('text')
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice',voices[1].id)
     engine.say(word)
     engine.runAndWait()
 
 def speakrotate(event):
     word = rotate.cget('text')
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice',voices[1].id)
     engine.say(word)
     engine.runAndWait()
 
 def speakblur(event):
     word = blurr.cget('text')
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice',voices[1].id)
     engine.say(word)
     engine.runAndWait()
 
 def speakcustomize(event):
     word = button5.cget('text')
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice',voices[1].id)
+    engine.say(word)
+    engine.runAndWait()
+
+def speaktime(event):
+    engine.say('its ' + (time.strftime('%I:%M %p')))
+    engine.runAndWait()
+
+def speaktimelabel(event):
+    word = label_time.cget('text')
+    engine.say(word)
+    engine.runAndWait()
+
+def speakdate_label(event):
+    word = label_date.cget('text')
     engine.say(word)
     engine.runAndWait()
 
@@ -618,12 +647,10 @@ def text():
             except ValueError:
                 pass
 
-
-
     newindow = Toplevel()
     newindow.title('Text')
     newindow.resizable(0,0)
-    newindow.geometry('300x200')
+    newindow.geometry('300x200+800+400')
     newindow.config(background='')
 
     label0 = Label(newindow,text='Add Text To Your Picture',bg='white',fg='aqua',font='cursive 15 bold italic')
@@ -656,6 +683,88 @@ def text():
     menubar1.add_cascade(label='Text',menu=menu5)
     newindow.config(menu=menubar1)
 
+def speakdate(event):
+    engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice',voices[1].id)
+    dic = {'01': 'January', '02': 'February', '03': 'March', '04': 'April', '05': 'May', '06': 'June', '07': 'July',
+           '08': 'August', '09': 'September', '10': 'October', '11': 'November', '12': 'December'}
+    day = date.today()
+
+    day1 = str(day).replace('-', ' ')
+    if day1[5:8] == '01 ':
+
+        day1 = str(day).replace('-', ' ')
+        day2 = day1.replace(day1[5:7], dic['06'])
+        engine.say('its '+day2)
+        engine.runAndWait()
+
+    elif day1[5:8] == '02 ':
+        day1 = str(day).replace('-', ' ')
+        day2 = day1.replace(day1[5:7], dic['02'])
+        engine.say('its '+day2)
+        engine.runAndWait()
+
+    elif day1[5:8] == '03 ':
+        day1 = str(day).replace('-', ' ')
+        day2 = day1.replace(day1[5:7], dic['03'])
+        engine.say('its '+day2)
+        engine.runAndWait()
+
+    elif day1[5:8] == '04 ':
+        day1 = str(day).replace('-', ' ')
+        day2 = day1.replace(day1[5:7], dic['04'])
+        engine.say('its '+day2)
+        engine.runAndWait()
+
+    elif day1[5:8] == '05 ':
+        day1 = str(day).replace('-', ' ')
+        day2 = day1.replace(day1[5:7], dic['05'])
+        engine.say('its '+day2)
+        engine.runAndWait()
+
+    elif day1[5:8] == '06 ':
+        day1 = str(day).replace('-', ' ')
+        day2 = day1.replace(day1[5:7], dic['06'])
+        engine.say('its '+day2)
+        engine.runAndWait()
+
+    elif day1[5:8] == '07 ':
+        day1 = str(day).replace('-', ' ')
+        day2 = day1.replace(day1[5:7], dic['07'])
+        engine.say('its '+day2)
+        engine.runAndWait()
+
+    elif day1[5:8] == '08 ':
+        day1 = str(day).replace('-', ' ')
+        day2 = day1.replace(day1[5:7], dic['08'])
+        engine.say('its '+day2)
+        engine.runAndWait()
+
+    elif day1[5:8] == '09 ':
+        day1 = str(day).replace('-', ' ')
+        day2 = day1.replace(day1[5:7], dic['09'])
+        engine.say('its '+day2)
+        engine.runAndWait()
+
+    elif day1[5:8] == '10 ':
+        day1 = str(day).replace('-', ' ')
+        day2 = day1.replace(day1[5:7], dic['10'])
+        engine.say('its '+day2)
+        engine.runAndWait()
+
+    elif day1[5:8] == '11 ':
+        day1 = str(day).replace('-', ' ')
+        day2 = day1.replace(day1[5:7], dic['11'])
+        engine.say('its '+day2)
+        engine.runAndWait()
+
+    if day1[5:8] == '12 ':
+        day1 = str(day).replace('-', ' ')
+        day2 = day1.replace(day1[5:7], dic['12'])
+        engine.say('its '+day2)
+        engine.runAndWait()
+
 
 master.geometry('565x450+600+200')
 master.title('Image Editor')
@@ -665,6 +774,8 @@ master.config(background='white')
 label = Label(master,text='Welcome To The Photo Editor!',bg='white',fg='aqua',font='chiller 40 bold italic')
 label.pack(side=TOP)
 label.bind('<Button-3>',speaklabel)
+label.bind('<Enter>',enter_label)
+label.bind('<Leave>',leave_label)
 
 openfile = Button(master,text='Choose Picture',bg='black',fg='white',activeforeground='black',activebackground='white',font='cursive 12 bold italic',cursor='hand2',command=choose)
 openfile.pack(padx=10,pady=20)
@@ -675,6 +786,8 @@ openfile.bind('<Leave>',leave6)
 
 label1 = Label(master,bg='white',fg='red',font='cursive 10 bold italic')
 label1.pack(pady=10)
+label1.bind('<Enter>',enter_label1)
+label1.bind('<Leave>',Leave_label1)
 
 contrast = Button(master,text='Contrast: ',font='cursive 10 bold italic',bg='white', command=contrast1,fg='black',activeforeground='black',activebackground='white',border=0,cursor='hand2')
 contrast.place(x=150,y=200)
@@ -739,8 +852,11 @@ blurr.bind('<Leave>',leave15)
 blurr.bind('<Button-1>',on_click1)
 blurr.bind('<Button-3>',speakblur)
 
+statusbar = Label(master,text='',bg='white',bd=2,relief=GROOVE,anchor=W,font='arial 9 italic')
+statusbar.pack(side=BOTTOM,fill=X)
+
 button5 = Button(master,text='Customize!',bg='black',command=create, fg='white',activeforeground='black',activebackground='white',font='curisve 12 bold italic',cursor='hand2')
-button5.pack(side=BOTTOM)
+button5.place(x=230,y=390)
 button5.bind('<Enter>',enter5)
 button5.bind('<Leave>',leave5)
 button5.bind('<Button-1>',on_click1)
@@ -763,9 +879,23 @@ menubar.add_cascade(label='Filters',menu=menu2)
 menu3 = Menu(menu2,tearoff=0)
 menu3.add_command(label='Emboss!',command=emboss1,foreground='red',background='yellow',activeforeground='red',activebackground='grey',font='cursive 10 bold italic')
 menu3.add_command(label='Invert!',command=inverted,foreground='red',background='yellow',activeforeground='red',activebackground='grey',font='cursive 10 bold italic')
-menu3.add_command(label='Pencil Sketch!',command=emboss1,foreground='red',background='yellow',activeforeground='red',activebackground='grey',font='cursive 10 bold italic')
+menu3.add_command(label='Pencil Sketch!',command=pencil,foreground='red',background='yellow',activeforeground='red',activebackground='grey',font='cursive 10 bold italic')
 menu2.add_cascade(label='Specials',menu=menu3,foreground='red',background='black',activeforeground='black',activebackground='grey',font='cursive 10 bold italic')
 menu3.bind('<<MenuSelect>>',on_click)
+
+label_time = Label(master,text='Time',bg='white',fg='black',font='cursive 12 bold italic')
+label_time.place(x=1,y=400)
+label_time.bind('<Button-1>',speaktime)
+label_time.bind('<Button-3>',speaktimelabel)
+label_time.bind('<Enter>',enter_time)
+label_time.bind('<Leave>',leavetime)
+
+label_date = Label(master,text='Date',bg='white',fg='black',font='cursive 12 bold italic')
+label_date.place(x=520,y=400)
+label_date.bind('<Button-1>',speakdate)
+label_date.bind('<Button-3>',speakdate_label)
+label_date.bind('<Enter>',enter_date)
+label_date.bind('<Leave>',leavedate)
 
 menu4 = Menu(menubar,tearoff=0)
 menu4.add_command(label='Add Text',foreground='red',background='black',activeforeground='black',activebackground='grey',font='cursive 10 bold italic',command=text)
